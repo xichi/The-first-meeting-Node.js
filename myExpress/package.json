@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "art-template": "^4.13.2",
+    "express": "^4.17.1",
+    "express-art-template": "^1.0.1"
   }
 }
