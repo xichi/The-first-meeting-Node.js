@@ -68,3 +68,15 @@ exports.editBook = (req,res)=>{
     res.redirect('/');
   })
 }
+
+// 删除图书信息
+exports.deleteBook = (req,res) => {
+  let id = req.query.id;
+  let sql = 'delete from book where id=?';
+  let data = [id];
+  db.base(sql,data,(result)=>{
+      if(result.affectedRows == 1){
+          res.redirect('/');
+      }
+  });
+}
