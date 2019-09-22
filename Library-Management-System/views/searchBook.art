@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>图书管理系统</title>
+    <title>查询图书</title>
 </head>
 <body>
-    <div>图书管理系统<a href="/toAddBook">添加图书</a>|<a href="/toSearchBook">查询图书</a></div> 
+    <div>查询图书</div>
+    <form action="/searchBook" method="get">
+        <input type="hidden" name="id" value="{{id}}">
+        名称：<input type="text" name="name" value="{{name}}"></br>
+        作者：<input type="text" name="author" value="{{author}}"></br>
+        分类：<input type="text" name="category" value="{{category}}"></br>
+        <input type="submit" value="提交">
+    </form>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -19,7 +26,7 @@
             </tr>
         </thead>
         <tbody>
-            {{each list}}
+            {{each searchResults}}
             <tr>
                 <td>{{$value.id}}</td>
                 <td>{{$value.name}}</td>
@@ -33,6 +40,6 @@
             </tr>
             {{/each}}
         </tbody>
-    </table>    
+    </table>  
 </body>
 </html>

@@ -19,7 +19,7 @@ exports.showIndex = (req,res)=>{
    res.render('index',{list : data});
 }
 
-//跳转到添加图书的页面
+//添加图书
 exports.toAddBook = (req,res)=>{
   res.render('addBook',{});
 }
@@ -38,7 +38,7 @@ exports.addBook = (req,res)=>{
   })
 }
 
-//跳转到编辑图书的页面
+//编辑图书
 exports.toEditBook = (req,res)=>{
   let id = req.query.id;
   book = {};
@@ -72,11 +72,40 @@ exports.editBook = (req,res)=>{
 // 删除图书信息
 exports.deleteBook = (req,res) => {
   let id = req.query.id;
-  let sql = 'delete from book where id=?';
-  let data = [id];
-  db.base(sql,data,(result)=>{
-      if(result.affectedRows == 1){
-          res.redirect('/');
-      }
-  });
+  data.forEach((item,index)=>{
+    if(id == item.id){
+       data.splice(index,1);
+       return;
+    }
+  })
+  //把内存数据写入文件
+  fs.writeFile(path.join(__dirname,'data.json'),JSON.stringify(data,null,4),(err)=>{
+     if(err){
+       res.send('内部错误，请与管理员联系');
+     }
+     res.redirect('/');
+  })
 }
+
+//查询图书
+exports.toSearchBook = (req,res)=>{
+  res.render('searchBook',{});
+}
+exports.searchBook = (req,res)=>{
+   let book = req.query;
+   let bookList = [];
+   let flag = 0;
+   data.forEach((item)=>{
+   for(let key in item){
+      if(book[key] == item[key]){
+        bookList.push(item);
+        flag = 1;
+        break;
+      }
+    }
+    if(flag){
+      return;
+    }   
+   })
+  res.render('searchBook',{searchResults: bookList});
+} 
